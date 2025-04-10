@@ -1,0 +1,34 @@
+syntax = "proto3";
+option go_package = "github.com/lejugeti/hackernews";
+package hackernews;
+
+message Empty {}
+
+message Story {
+  string title = 1;
+  string url = 2;
+}
+
+message TopStories {
+  repeated Story stories = 1;
+}
+
+message User {
+  string nick = 1;
+  uint64 karma = 2;
+  string about = 3;
+  string joined_at = 4;
+}
+
+message TopStoriesRequest {
+
+}
+
+message UserInfoRequest {
+    string name = 1;
+}
+
+service HnService {
+  rpc GetTopStories(TopStoriesRequest) returns (TopStories) {}
+  rpc Whois(UserInfoRequest) returns (User) {}
+}
