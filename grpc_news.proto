@@ -14,10 +14,10 @@ message TopStories {
 }
 
 message User {
-  string nick = 1;
+  string nickname = 1;
   uint64 karma = 2;
   string about = 3;
-  string joined_at = 4;
+  int64 joined_at = 4;
 }
 
 message TopStoriesRequest {

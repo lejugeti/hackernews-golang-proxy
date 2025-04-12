@@ -155,10 +155,10 @@ func (x *TopStories) GetStories() []*Story {
 
 type User struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Nick          string                 `protobuf:"bytes,1,opt,name=nick,proto3" json:"nick,omitempty"`
+	Nickname      string                 `protobuf:"bytes,1,opt,name=nickname,proto3" json:"nickname,omitempty"`
 	Karma         uint64                 `protobuf:"varint,2,opt,name=karma,proto3" json:"karma,omitempty"`
 	About         string                 `protobuf:"bytes,3,opt,name=about,proto3" json:"about,omitempty"`
-	JoinedAt      string                 `protobuf:"bytes,4,opt,name=joined_at,json=joinedAt,proto3" json:"joined_at,omitempty"`
+	JoinedAt      int64                  `protobuf:"varint,4,opt,name=joined_at,json=joinedAt,proto3" json:"joined_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -193,9 +193,9 @@ func (*User) Descriptor() ([]byte, []int) {
 	return file_grpc_news_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *User) GetNick() string {
+func (x *User) GetNickname() string {
 	if x != nil {
-		return x.Nick
+		return x.Nickname
 	}
 	return ""
 }
@@ -214,11 +214,11 @@ func (x *User) GetAbout() string {
 	return ""
 }
 
-func (x *User) GetJoinedAt() string {
+func (x *User) GetJoinedAt() int64 {
 	if x != nil {
 		return x.JoinedAt
 	}
-	return ""
+	return 0
 }
 
 type TopStoriesRequest struct {
@@ -313,12 +313,12 @@ const file_grpc_news_proto_rawDesc = "" +
 	"\x03url\x18\x02 \x01(\tR\x03url\"9\n" +
 	"\n" +
 	"TopStories\x12+\n" +
-	"\astories\x18\x01 \x03(\v2\x11.hackernews.StoryR\astories\"c\n" +
-	"\x04User\x12\x12\n" +
-	"\x04nick\x18\x01 \x01(\tR\x04nick\x12\x14\n" +
+	"\astories\x18\x01 \x03(\v2\x11.hackernews.StoryR\astories\"k\n" +
+	"\x04User\x12\x1a\n" +
+	"\bnickname\x18\x01 \x01(\tR\bnickname\x12\x14\n" +
 	"\x05karma\x18\x02 \x01(\x04R\x05karma\x12\x14\n" +
 	"\x05about\x18\x03 \x01(\tR\x05about\x12\x1b\n" +
-	"\tjoined_at\x18\x04 \x01(\tR\bjoinedAt\"\x13\n" +
+	"\tjoined_at\x18\x04 \x01(\x03R\bjoinedAt\"\x13\n" +
 	"\x11TopStoriesRequest\"%\n" +
 	"\x0fUserInfoRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name2\x8f\x01\n" +
