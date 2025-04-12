@@ -10,7 +10,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	hn "hackernews/generated"
+	grpcHn "hackernews/generated"
 )
 const serverAddress = "localhost:50051"
 
@@ -41,23 +41,27 @@ func main() {
         log.Fatalf("Cannot connect to server: %v", err)
     }
     defer conn.Close()
-    c := hn.NewHnServiceClient(conn)
+    c := grpcHn.NewHnServiceClient(conn)
 
     ctx, cancel := context.WithTimeout(context.Background(), time.Second)
     defer cancel()
 
     if *listNewsMode {
-        r, err := c.GetTopStories(ctx, &hn.TopStoriesRequest{})
+        r, err := c.GetTopStories(ctx, &grpcHn.TopStoriesRequest{})
         if err != nil {
             log.Fatalf("Error: %v", err)
         }
         log.Printf("Top series: %v", r.GetStories())
     } else if len(*userName) != 0 {
-        r, err := c.Whois(ctx, &hn.UserInfoRequest{Name: *userName})
+        user, err := c.Whois(ctx, &grpcHn.UserInfoRequest{Name: *userName})
         if err != nil {
             log.Fatalf("Error: %v", err)
         }
-        log.Printf("User name: %s", r.GetNick())
+
+		fmt.Printf("User:   %s\n", user.GetNickname())
+		fmt.Printf("Karma:  %d\n", user.GetKarma())
+		fmt.Printf("About:  %s\n", user.GetAbout())
+		fmt.Printf("Joined: %s\n", time.Unix(user.GetJoinedAt(), 0).Format(time.DateOnly))
     }
     
 }
