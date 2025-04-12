@@ -2,13 +2,14 @@ package main
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"log"
 	"net"
 	"os"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 
 	grpcHn "hackernews/generated"
 
@@ -29,13 +30,15 @@ func (s *hackernewsServer) GetTopStories(_ context.Context, _ *grpcHn.TopStories
 // Fetches information about a user based on his/her nickname
 func (s *hackernewsServer) Whois(_ context.Context, userRequest *grpcHn.UserInfoRequest) (*grpcHn.User, error){
 	if userRequest.GetName() == "" {
-		return nil, errors.New("could not fetch user details because no user nickname was provided")
+		return nil, status.Error(codes.InvalidArgument, "could not fetch user details because no user nickname was provided")
 	}
 
 	user, err := s.UserService.GetUserInfo(userRequest.GetName())
 	
-	if user == nil || err != nil {
-		return nil, fmt.Errorf("could not get user information. Caused by: %s", err.Error())
+	if user == nil {
+		return nil, status.Errorf(codes.NotFound, "user '%s' not found", userRequest.Name)
+	} else if err != nil {
+		return nil, status.Errorf(codes.Internal, "could not get user information. Caused by: %s", err.Error())
 	}
 
 	return &grpcHn.User{
@@ -67,9 +70,4 @@ func main() {
     if err := s.Serve(listener); err != nil {
         log.Fatalf("failed to serve: %v", err)
     }
-
-
-	// req := grpcHn.UserInfoRequest{Name: "fra"}
-	// s := &server{UserService: us.NewHackernewsUserProxy()}
-	// s.Whois(context.TODO(), &req)
 }

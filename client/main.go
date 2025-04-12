@@ -54,8 +54,10 @@ func main() {
         log.Printf("Top series: %v", r.GetStories())
     } else if len(*userName) != 0 {
         user, err := c.Whois(ctx, &grpcHn.UserInfoRequest{Name: *userName})
-        if err != nil {
-            log.Fatalf("Error: %v", err)
+        
+		if err != nil {
+			fmt.Printf("Error: %v\n", err.Error())
+			return
         }
 
 		fmt.Printf("User:   %s\n", user.GetNickname())
