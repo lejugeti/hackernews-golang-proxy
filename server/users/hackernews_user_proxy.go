@@ -5,9 +5,10 @@ import (
 
 	"hackernews/server/cache"
 
-	hn "github.com/peterhellberg/hn"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+
+	hn "github.com/peterhellberg/hn"
 )
 
 type hackernewsUserProxy struct {
