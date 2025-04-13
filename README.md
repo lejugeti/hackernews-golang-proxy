@@ -15,8 +15,6 @@ The server and client are based on the services generated from [this protobuf sc
 Command to generate:
 
 ```bash
-export PATH="$PATH:$(go env GOPATH)/bin"
-
 protoc --go_out=./generated \
     --go_opt=paths=source_relative \
     --go-grpc_out=./generated \
