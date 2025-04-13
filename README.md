@@ -36,7 +36,7 @@ Results are stored in cache to speed up future requests. Note that each cached d
 ### Usage
 
 ```bash
-go run grpc_news/main.go up
+go run server/main.go up
 ```
 
 ## Client
