@@ -9,8 +9,8 @@ import (
 
 	grpcHn "hackernews/generated"
 
-	sts "hackernews/grpc_news/stories"
-	us "hackernews/grpc_news/users"
+	sts "hackernews/server/stories"
+	us "hackernews/server/users"
 )
 
 type hackernewsProxyServer struct {

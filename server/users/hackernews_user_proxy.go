@@ -3,7 +3,7 @@ package users
 import (
 	"time"
 
-	"hackernews/grpc_news/cache"
+	"hackernews/server/cache"
 
 	hn "github.com/peterhellberg/hn"
 	"google.golang.org/grpc/codes"

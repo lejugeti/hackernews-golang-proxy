@@ -1,7 +1,7 @@
 package stories
 
 import (
-	"hackernews/grpc_news/cache"
+	"hackernews/server/cache"
 	"net/http"
 	"time"
 

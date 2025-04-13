@@ -10,10 +10,10 @@ import (
 
 	grpcHn "hackernews/generated"
 
-	"hackernews/grpc_news/cache"
-	proxyServer "hackernews/grpc_news/server"
-	sts "hackernews/grpc_news/stories"
-	us "hackernews/grpc_news/users"
+	"hackernews/server/cache"
+	proxyServer "hackernews/server/server"
+	sts "hackernews/server/stories"
+	us "hackernews/server/users"
 )
 
 const port int = 50051
@@ -21,7 +21,7 @@ const defaultCacheTtlSeconds uint32 = 40
 
 func main() {
     if len(os.Args) == 1 || os.Args[1] != "up" {
-        fmt.Println("Usage : go run grpc_news/main.go up")
+        fmt.Println("Usage : go run server/main.go up")
         return
     }
 
