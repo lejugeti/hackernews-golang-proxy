@@ -13,18 +13,34 @@ import (
 
 	grpcHn "hackernews/generated"
 
+	sts "hackernews/grpc_news/stories"
 	us "hackernews/grpc_news/users"
 )
 
 type hackernewsServer struct {
     grpcHn.UnimplementedHnServiceServer
 	UserService us.UserService
+	StoriesService sts.StoriesService
 }
 
-func (s *hackernewsServer) GetTopStories(_ context.Context, _ *grpcHn.TopStoriesRequest) (*grpcHn.TopStories, error) {
-    log.Print("list news")
+func (s *hackernewsServer) GetTopStories(_ context.Context, storiesRequest *grpcHn.TopStoriesRequest) (*grpcHn.TopStories, error) {
+	stories, err := s.StoriesService.GetTopStories(storiesRequest.GetStoryNumber())
 
-    return &grpcHn.TopStories{}, nil
+	if err != nil {
+		log.Printf("Error while retrieving top stories. Cause: %s\n", err.Error())
+		return nil, status.Errorf(codes.Internal, "internal error while retrieving top stories. Caused by: %s", err.Error())
+	}
+
+	var mappedStories = make([]*grpcHn.Story, len(*stories))
+
+	for i, story := range *stories {
+		mappedStories[i] = &grpcHn.Story {
+			Title: story.Title,
+			Url: story.Url,
+		}
+	}
+
+    return &grpcHn.TopStories{Stories: mappedStories}, nil
 }
 
 // Fetches information about a user based on his/her nickname
@@ -63,7 +79,9 @@ func main() {
     }
 
     s := grpc.NewServer()
-	hnServer := hackernewsServer{UserService: us.NewHackernewsUserProxy()}
+	hnServer := hackernewsServer{
+		UserService: us.NewHackernewsUserProxy(),
+		StoriesService: sts.NewHackernewsStoriesProxy()}
 
     grpcHn.RegisterHnServiceServer(s, &hnServer)
     log.Printf("server listening at %v", listener.Addr())
