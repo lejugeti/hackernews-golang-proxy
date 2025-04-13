@@ -11,10 +11,10 @@ import (
 )
 
 type hackernewsUserProxy struct {
-	cache cache.Cache[string, User]
+	cache cache.Cache[string, *User]
 }
 
-func NewHackernewsUserProxy(cache cache.Cache[string, User]) (UserService) {
+func NewHackernewsUserProxy(cache cache.Cache[string, *User]) (UserService) {
 	return &hackernewsUserProxy{
 		cache: cache,
 	}
@@ -28,7 +28,7 @@ func (us *hackernewsUserProxy) GetUserInfo(nickname string) (*User, error) {
 	userFromCache, userIsCached := us.cache.Get(nickname)
 
 	if userIsCached {
-		return &userFromCache, nil
+		return userFromCache, nil
 	} else {
 		user, err := us.fetchUserDetails(nickname)
 
@@ -36,7 +36,7 @@ func (us *hackernewsUserProxy) GetUserInfo(nickname string) (*User, error) {
 			return nil, status.Errorf(codes.Internal, "error occurred while fetching user '%s' details. Cause: %v", nickname, err)
 		}
 
-		us.cache.Add(nickname, *user)
+		us.cache.Add(nickname, user)
 
 		return user, nil
 	}

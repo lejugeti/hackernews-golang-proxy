@@ -32,8 +32,8 @@ func main() {
 
     s := grpc.NewServer()
 
-	userCache := cache.NewTimeToLiveCache[string, us.User](defaultCacheTtlSeconds)
-	storiesCache := cache.NewTimeToLiveCache[int, sts.Story](defaultCacheTtlSeconds)
+	userCache := cache.NewTimeToLiveCache[string, *us.User](defaultCacheTtlSeconds)
+	storiesCache := cache.NewTimeToLiveCache[int, *sts.Story](defaultCacheTtlSeconds)
 
 	hnServer := proxyServer.NewHnProxyServer(
 		sts.NewHackernewsStoriesProxy(storiesCache),

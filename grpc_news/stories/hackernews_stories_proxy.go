@@ -11,10 +11,10 @@ import (
 )
 
 type hackernewsStoriesProxy struct {
-	cache cache.Cache[int, Story]
+	cache cache.Cache[int, *Story]
 }
 
-func NewHackernewsStoriesProxy(cache cache.Cache[int, Story]) (StoriesService) {
+func NewHackernewsStoriesProxy(cache cache.Cache[int, *Story]) (StoriesService) {
 	return &hackernewsStoriesProxy{
 		cache: cache,
 	}
@@ -34,7 +34,7 @@ func (hsp *hackernewsStoriesProxy) GetTopStories(maxStoryCount uint32) (*[]Story
 		storyFromCache, storyIsCached  := hsp.cache.Get(storyId)
 
 		if storyIsCached {
-			stories[i] = storyFromCache
+			stories[i] = *storyFromCache
 		} else {
 			story, err := hsp.fetchStory(hnClient, storyId)
 
@@ -43,7 +43,7 @@ func (hsp *hackernewsStoriesProxy) GetTopStories(maxStoryCount uint32) (*[]Story
 			}
 
 			stories[i] = *story
-			hsp.cache.Add(storyId, *story)
+			hsp.cache.Add(storyId, story)
 		}
 	}
 
