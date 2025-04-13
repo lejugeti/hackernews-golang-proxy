@@ -11,11 +11,13 @@ import (
 )
 
 type hackernewsUserProxy struct {
+	hnClient hn.Client
 	cache cache.Cache[string, *User]
 }
 
-func NewHackernewsUserProxy(cache cache.Cache[string, *User]) (UserService) {
+func NewHackernewsUserProxy(client hn.Client, cache cache.Cache[string, *User]) (UserService) {
 	return &hackernewsUserProxy{
+		hnClient: client,
 		cache: cache,
 	}
 }
@@ -47,7 +49,7 @@ func (us *hackernewsUserProxy) fetchUserDetails(nickname string) (*User, error) 
 		return nil, status.Error(codes.InvalidArgument, "user nickname must be provided in order to fetch user details")
 	}
 
-	userInfo, err := hn.DefaultClient.User(nickname)
+	userInfo, err := us.hnClient.User(nickname)
 	
 	if err != nil {
 		return nil, err

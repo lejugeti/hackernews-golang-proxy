@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"net/http"
 	"os"
+	"time"
 
 	"google.golang.org/grpc"
 
@@ -14,10 +16,13 @@ import (
 	proxyServer "hackernews/server/server"
 	sts "hackernews/server/stories"
 	us "hackernews/server/users"
+
+	hn "github.com/peterhellberg/hn"
 )
 
 const port int = 50051
 const defaultCacheTtlSeconds uint32 = 40
+const defaultClientTimeoutSeconds uint32 = 20
 
 func main() {
     if len(os.Args) == 1 || os.Args[1] != "up" {
@@ -35,9 +40,12 @@ func main() {
 	userCache := cache.NewTimeToLiveCache[string, *us.User](defaultCacheTtlSeconds)
 	storiesCache := cache.NewTimeToLiveCache[int, *sts.Story](defaultCacheTtlSeconds)
 
+	clientTimeout := time.Duration(defaultClientTimeoutSeconds) * time.Second
+	hnClient := hn.NewClient(&http.Client{Timeout: clientTimeout})
+
 	hnServer := proxyServer.NewHnProxyServer(
-		sts.NewHackernewsStoriesProxy(storiesCache),
-		us.NewHackernewsUserProxy(userCache),
+		sts.NewHackernewsStoriesProxy(*hnClient, storiesCache),
+		us.NewHackernewsUserProxy(*hnClient, userCache),
 	)
 
     grpcHn.RegisterHnServiceServer(s, &hnServer)

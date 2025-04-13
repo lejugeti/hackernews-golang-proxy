@@ -2,8 +2,6 @@ package stories
 
 import (
 	"hackernews/server/cache"
-	"net/http"
-	"time"
 
 	hn "github.com/peterhellberg/hn"
 	"google.golang.org/grpc/codes"
@@ -11,19 +9,19 @@ import (
 )
 
 type hackernewsStoriesProxy struct {
+	hnClient hn.Client
 	cache cache.Cache[int, *Story]
 }
 
-func NewHackernewsStoriesProxy(cache cache.Cache[int, *Story]) (StoriesService) {
+func NewHackernewsStoriesProxy(client hn.Client, cache cache.Cache[int, *Story]) (StoriesService) {
 	return &hackernewsStoriesProxy{
+		hnClient: client,
 		cache: cache,
 	}
 }
 
 func (hsp *hackernewsStoriesProxy) GetTopStories(maxStoryCount uint32) (*[]Story, error) {
-	hnClient := hn.NewClient(&http.Client{Timeout: time.Duration(10 * time.Second)})
-
-	idsStories, err := hnClient.TopStories()
+	idsStories, err := hsp.hnClient.TopStories()
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "error occurred during top stories fetch. Cause: %v", err)
 	}
@@ -36,7 +34,7 @@ func (hsp *hackernewsStoriesProxy) GetTopStories(maxStoryCount uint32) (*[]Story
 		if storyIsCached {
 			stories[i] = *storyFromCache
 		} else {
-			story, err := hsp.fetchStory(hnClient, storyId)
+			story, err := hsp.fetchStory(storyId)
 
 			if err != nil {
 				return nil, status.Errorf(codes.Internal, "error encountered while fetching top stories. Cause: %v", err)
@@ -50,8 +48,8 @@ func (hsp *hackernewsStoriesProxy) GetTopStories(maxStoryCount uint32) (*[]Story
 	return &stories, nil
 }
 
-func (hsp *hackernewsStoriesProxy) fetchStory(client *hn.Client, id int) (*Story, error) {
-	rawStory, err := client.Item(id)
+func (hsp *hackernewsStoriesProxy) fetchStory(id int) (*Story, error) {
+	rawStory, err := hsp.hnClient.Item(id)
 	
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "could not fetch story '%d'. Cause: %v", id, err)
