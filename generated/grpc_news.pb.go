@@ -223,6 +223,7 @@ func (x *User) GetJoinedAt() int64 {
 
 type TopStoriesRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	StoryNumber   uint32                 `protobuf:"varint,1,opt,name=storyNumber,proto3" json:"storyNumber,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -255,6 +256,13 @@ func (x *TopStoriesRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use TopStoriesRequest.ProtoReflect.Descriptor instead.
 func (*TopStoriesRequest) Descriptor() ([]byte, []int) {
 	return file_grpc_news_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *TopStoriesRequest) GetStoryNumber() uint32 {
+	if x != nil {
+		return x.StoryNumber
+	}
+	return 0
 }
 
 type UserInfoRequest struct {
@@ -318,8 +326,9 @@ const file_grpc_news_proto_rawDesc = "" +
 	"\bnickname\x18\x01 \x01(\tR\bnickname\x12\x14\n" +
 	"\x05karma\x18\x02 \x01(\x04R\x05karma\x12\x14\n" +
 	"\x05about\x18\x03 \x01(\tR\x05about\x12\x1b\n" +
-	"\tjoined_at\x18\x04 \x01(\x03R\bjoinedAt\"\x13\n" +
-	"\x11TopStoriesRequest\"%\n" +
+	"\tjoined_at\x18\x04 \x01(\x03R\bjoinedAt\"5\n" +
+	"\x11TopStoriesRequest\x12 \n" +
+	"\vstoryNumber\x18\x01 \x01(\rR\vstoryNumber\"%\n" +
 	"\x0fUserInfoRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name2\x8f\x01\n" +
 	"\tHnService\x12H\n" +

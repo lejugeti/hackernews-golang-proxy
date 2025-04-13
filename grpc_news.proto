@@ -21,7 +21,7 @@ message User {
 }
 
 message TopStoriesRequest {
-
+  uint32 storyNumber = 1;
 }
 
 message UserInfoRequest {
