@@ -50,15 +50,15 @@ func (s *hackernewsProxyServer) GetTopStories(_ context.Context, storiesRequest 
 // Fetches information about a user based on his/her nickname
 func (s *hackernewsProxyServer) Whois(_ context.Context, userRequest *grpcHn.UserInfoRequest) (*grpcHn.User, error){
 	if userRequest.GetName() == "" {
-		return nil, status.Error(codes.InvalidArgument, "could not fetch user details because no user nickname was provided")
+		return nil, status.Error(codes.InvalidArgument, "user nickname must be provided to fetch user details")
 	}
 
 	user, err := s.UserService.GetUserInfo(userRequest.GetName())
 	
-	if user == nil {
-		return nil, status.Errorf(codes.NotFound, "user '%s' not found", userRequest.Name)
-	} else if err != nil {
+	if err != nil {
 		return nil, status.Errorf(codes.Internal, "could not get user information. Caused by: %s", err.Error())
+	} else if user == nil {
+		return nil, status.Errorf(codes.NotFound, "user '%s' not found", userRequest.Name)
 	}
 
 	return &grpcHn.User{

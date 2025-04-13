@@ -1,6 +1,7 @@
 package stories
 
 import (
+	"hackernews/grpc_news/cache"
 	"net/http"
 	"time"
 
@@ -9,13 +10,20 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-type hackernewsStoriesProxy struct {}
+type hackernewsStoriesProxy struct {
+	cache cache.Cache[int, Story]
+}
 
+func NewHackernewsStoriesProxy(cache cache.Cache[int, Story]) (StoriesService) {
+	return &hackernewsStoriesProxy{
+		cache: cache,
+	}
+}
 
 func (hsp *hackernewsStoriesProxy) GetTopStories(maxStoryCount uint32) (*[]Story, error) {
-	hn := hn.NewClient(&http.Client{Timeout: time.Duration(10 * time.Second)})
+	hnClient := hn.NewClient(&http.Client{Timeout: time.Duration(10 * time.Second)})
 
-	idsStories, err := hn.TopStories()
+	idsStories, err := hnClient.TopStories()
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "error occurred during top stories fetch. Cause: %v", err)
 	}
@@ -23,21 +31,35 @@ func (hsp *hackernewsStoriesProxy) GetTopStories(maxStoryCount uint32) (*[]Story
 	var stories = make([]Story, maxStoryCount)
 
 	for i, storyId := range idsStories[:maxStoryCount] {
-		rawStory, err := hn.Item(storyId)
-		if err != nil {
-			return nil, status.Errorf(codes.Internal, "could not fetch story '%d'. Cause: %v", storyId, err)
-		}	
+		storyFromCache, storyIsCached  := hsp.cache.Get(storyId)
 
-		stories[i] = Story{
-			Id: rawStory.ID,
-			Title: rawStory.Title,
-			Url: rawStory.URL,
+		if storyIsCached {
+			stories[i] = storyFromCache
+		} else {
+			story, err := hsp.fetchStory(hnClient, storyId)
+
+			if err != nil {
+				return nil, status.Errorf(codes.Internal, "error encountered while fetching top stories. Cause: %v", err)
+			}
+
+			stories[i] = *story
+			hsp.cache.Add(storyId, *story)
 		}
 	}
 
 	return &stories, nil
 }
 
-func NewHackernewsStoriesProxy() (StoriesService) {
-	return &hackernewsStoriesProxy{}
+func (hsp *hackernewsStoriesProxy) fetchStory(client *hn.Client, id int) (*Story, error) {
+	rawStory, err := client.Item(id)
+	
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "could not fetch story '%d'. Cause: %v", id, err)
+	}	
+
+	return &Story{
+		Id: rawStory.ID,
+		Title: rawStory.Title,
+		Url: rawStory.URL,
+	}, nil
 }
