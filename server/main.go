@@ -37,8 +37,9 @@ func main() {
 
     s := grpc.NewServer()
 
-	userCache := cache.NewTimeToLiveCache[string, *us.User](defaultCacheTtlSeconds)
-	storiesCache := cache.NewTimeToLiveCache[int, *sts.Story](defaultCacheTtlSeconds)
+	timeToLiveDuration := time.Second * time.Duration(defaultCacheTtlSeconds)
+	userCache := cache.NewTimeToLiveCache[string, *us.User](timeToLiveDuration)
+	storiesCache := cache.NewTimeToLiveCache[int, *sts.Story](timeToLiveDuration)
 
 	clientTimeout := time.Duration(defaultClientTimeoutSeconds) * time.Second
 	hnClient := hn.NewClient(&http.Client{Timeout: clientTimeout})

@@ -13,10 +13,10 @@ type TimeToLiveCache[K comparable, V any] struct {
 	timeToLiveTimers map[K]*time.Timer
 }
 
-func NewTimeToLiveCache[K comparable, V any](timeToLiveSeconds uint32) *TimeToLiveCache[K, V] {
+func NewTimeToLiveCache[K comparable, V any](timeToLive time.Duration) *TimeToLiveCache[K, V] {
 	return &TimeToLiveCache[K, V]{
 		data: make(map[K]V),
-		timeToLive: time.Duration(timeToLiveSeconds) * time.Second,
+		timeToLive: timeToLive,
 		timeToLiveTimers: make(map[K]*time.Timer),
 	}
 }
