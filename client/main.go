@@ -78,7 +78,7 @@ const whoisFlag string = "whois"
 var (
     userName = flag.String(whoisFlag, "", "Retrieve information on user passed as input")
     isListMode = flag.Bool(listFlag, false, "Number of top news from HackerNews front page to fetch")
-    newsNumber = flag.Int(newsNumberFlag, 30, fmt.Sprintf("Max number of news to fetch. Must be used along with the -%s flag", listFlag))
+    newsNumber = flag.Int(newsNumberFlag, 10, fmt.Sprintf("Max number of news to fetch. Must be used along with the -%s flag", listFlag))
     timeoutSeconds = flag.Int(timeoutFlag, 20, "Timeout in seconds before client cutting connection to server")
 )
 
