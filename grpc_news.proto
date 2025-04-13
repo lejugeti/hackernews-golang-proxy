@@ -2,8 +2,6 @@ syntax = "proto3";
 option go_package = "github.com/lejugeti/hackernews";
 package hackernews;
 
-message Empty {}
-
 message Story {
   string title = 1;
   string url = 2;

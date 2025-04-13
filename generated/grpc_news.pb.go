@@ -21,42 +21,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type Empty struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *Empty) Reset() {
-	*x = Empty{}
-	mi := &file_grpc_news_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *Empty) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Empty) ProtoMessage() {}
-
-func (x *Empty) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_news_proto_msgTypes[0]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Empty.ProtoReflect.Descriptor instead.
-func (*Empty) Descriptor() ([]byte, []int) {
-	return file_grpc_news_proto_rawDescGZIP(), []int{0}
-}
-
 type Story struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Title         string                 `protobuf:"bytes,1,opt,name=title,proto3" json:"title,omitempty"`
@@ -67,7 +31,7 @@ type Story struct {
 
 func (x *Story) Reset() {
 	*x = Story{}
-	mi := &file_grpc_news_proto_msgTypes[1]
+	mi := &file_grpc_news_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -79,7 +43,7 @@ func (x *Story) String() string {
 func (*Story) ProtoMessage() {}
 
 func (x *Story) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_news_proto_msgTypes[1]
+	mi := &file_grpc_news_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -92,7 +56,7 @@ func (x *Story) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Story.ProtoReflect.Descriptor instead.
 func (*Story) Descriptor() ([]byte, []int) {
-	return file_grpc_news_proto_rawDescGZIP(), []int{1}
+	return file_grpc_news_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Story) GetTitle() string {
@@ -118,7 +82,7 @@ type TopStories struct {
 
 func (x *TopStories) Reset() {
 	*x = TopStories{}
-	mi := &file_grpc_news_proto_msgTypes[2]
+	mi := &file_grpc_news_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -130,7 +94,7 @@ func (x *TopStories) String() string {
 func (*TopStories) ProtoMessage() {}
 
 func (x *TopStories) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_news_proto_msgTypes[2]
+	mi := &file_grpc_news_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -143,7 +107,7 @@ func (x *TopStories) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TopStories.ProtoReflect.Descriptor instead.
 func (*TopStories) Descriptor() ([]byte, []int) {
-	return file_grpc_news_proto_rawDescGZIP(), []int{2}
+	return file_grpc_news_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *TopStories) GetStories() []*Story {
@@ -165,7 +129,7 @@ type User struct {
 
 func (x *User) Reset() {
 	*x = User{}
-	mi := &file_grpc_news_proto_msgTypes[3]
+	mi := &file_grpc_news_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -177,7 +141,7 @@ func (x *User) String() string {
 func (*User) ProtoMessage() {}
 
 func (x *User) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_news_proto_msgTypes[3]
+	mi := &file_grpc_news_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -190,7 +154,7 @@ func (x *User) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use User.ProtoReflect.Descriptor instead.
 func (*User) Descriptor() ([]byte, []int) {
-	return file_grpc_news_proto_rawDescGZIP(), []int{3}
+	return file_grpc_news_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *User) GetNickname() string {
@@ -230,7 +194,7 @@ type TopStoriesRequest struct {
 
 func (x *TopStoriesRequest) Reset() {
 	*x = TopStoriesRequest{}
-	mi := &file_grpc_news_proto_msgTypes[4]
+	mi := &file_grpc_news_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -242,7 +206,7 @@ func (x *TopStoriesRequest) String() string {
 func (*TopStoriesRequest) ProtoMessage() {}
 
 func (x *TopStoriesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_news_proto_msgTypes[4]
+	mi := &file_grpc_news_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -255,7 +219,7 @@ func (x *TopStoriesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TopStoriesRequest.ProtoReflect.Descriptor instead.
 func (*TopStoriesRequest) Descriptor() ([]byte, []int) {
-	return file_grpc_news_proto_rawDescGZIP(), []int{4}
+	return file_grpc_news_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *TopStoriesRequest) GetStoryNumber() uint32 {
@@ -274,7 +238,7 @@ type UserInfoRequest struct {
 
 func (x *UserInfoRequest) Reset() {
 	*x = UserInfoRequest{}
-	mi := &file_grpc_news_proto_msgTypes[5]
+	mi := &file_grpc_news_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -286,7 +250,7 @@ func (x *UserInfoRequest) String() string {
 func (*UserInfoRequest) ProtoMessage() {}
 
 func (x *UserInfoRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_news_proto_msgTypes[5]
+	mi := &file_grpc_news_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -299,7 +263,7 @@ func (x *UserInfoRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserInfoRequest.ProtoReflect.Descriptor instead.
 func (*UserInfoRequest) Descriptor() ([]byte, []int) {
-	return file_grpc_news_proto_rawDescGZIP(), []int{5}
+	return file_grpc_news_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *UserInfoRequest) GetName() string {
@@ -314,8 +278,7 @@ var File_grpc_news_proto protoreflect.FileDescriptor
 const file_grpc_news_proto_rawDesc = "" +
 	"\n" +
 	"\x0fgrpc_news.proto\x12\n" +
-	"hackernews\"\a\n" +
-	"\x05Empty\"/\n" +
+	"hackernews\"/\n" +
 	"\x05Story\x12\x14\n" +
 	"\x05title\x18\x01 \x01(\tR\x05title\x12\x10\n" +
 	"\x03url\x18\x02 \x01(\tR\x03url\"9\n" +
@@ -347,21 +310,20 @@ func file_grpc_news_proto_rawDescGZIP() []byte {
 	return file_grpc_news_proto_rawDescData
 }
 
-var file_grpc_news_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_grpc_news_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_grpc_news_proto_goTypes = []any{
-	(*Empty)(nil),             // 0: hackernews.Empty
-	(*Story)(nil),             // 1: hackernews.Story
-	(*TopStories)(nil),        // 2: hackernews.TopStories
-	(*User)(nil),              // 3: hackernews.User
-	(*TopStoriesRequest)(nil), // 4: hackernews.TopStoriesRequest
-	(*UserInfoRequest)(nil),   // 5: hackernews.UserInfoRequest
+	(*Story)(nil),             // 0: hackernews.Story
+	(*TopStories)(nil),        // 1: hackernews.TopStories
+	(*User)(nil),              // 2: hackernews.User
+	(*TopStoriesRequest)(nil), // 3: hackernews.TopStoriesRequest
+	(*UserInfoRequest)(nil),   // 4: hackernews.UserInfoRequest
 }
 var file_grpc_news_proto_depIdxs = []int32{
-	1, // 0: hackernews.TopStories.stories:type_name -> hackernews.Story
-	4, // 1: hackernews.HnService.GetTopStories:input_type -> hackernews.TopStoriesRequest
-	5, // 2: hackernews.HnService.Whois:input_type -> hackernews.UserInfoRequest
-	2, // 3: hackernews.HnService.GetTopStories:output_type -> hackernews.TopStories
-	3, // 4: hackernews.HnService.Whois:output_type -> hackernews.User
+	0, // 0: hackernews.TopStories.stories:type_name -> hackernews.Story
+	3, // 1: hackernews.HnService.GetTopStories:input_type -> hackernews.TopStoriesRequest
+	4, // 2: hackernews.HnService.Whois:input_type -> hackernews.UserInfoRequest
+	1, // 3: hackernews.HnService.GetTopStories:output_type -> hackernews.TopStories
+	2, // 4: hackernews.HnService.Whois:output_type -> hackernews.User
 	3, // [3:5] is the sub-list for method output_type
 	1, // [1:3] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
@@ -380,7 +342,7 @@ func file_grpc_news_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_grpc_news_proto_rawDesc), len(file_grpc_news_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
